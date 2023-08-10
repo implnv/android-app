@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SputnicJitsi</string>
+    <string name="experts">Эксперты</string>
+    <string name="next">Дальше</string>
+    <string name="prev">Назад</string>
+    <string name="sputnic">Спутник</string>
+    <string name="name">Название</string>
+    <string name="pages">Страницы</string>
+</resources>
