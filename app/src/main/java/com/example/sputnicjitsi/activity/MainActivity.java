@@ -38,6 +38,7 @@ import com.example.sputnicjitsi.QR.QRCodeContextAnalyzer;
 import com.example.sputnicjitsi.QR.QRCodeFoundListener;
 import com.example.sputnicjitsi.QR.QRCodeImageAnalyzer;
 import com.example.sputnicjitsi.R;
+import com.example.sputnicjitsi.Retro;
 import com.example.sputnicjitsi.WebSocket;
 import com.example.sputnicjitsi.auth.AuthRequest;
 import com.example.sputnicjitsi.auth.AuthResponse;
@@ -81,13 +82,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         previewView = findViewById(R.id.activity_main_previewView);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.109:6868/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        userApi = retrofit.create(UserApi.class);
-
+        userApi = Retro.getInstance().create(UserApi.class);
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
         startWifi();

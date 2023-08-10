@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sputnicjitsi.R;
+import com.example.sputnicjitsi.Retro;
 import com.example.sputnicjitsi.WebSocket;
 import com.example.sputnicjitsi.experts.AvailableExperts;
 import com.example.sputnicjitsi.experts.ExpResponse;
@@ -56,12 +57,8 @@ public class ExpertsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_experts);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.109:6868/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        expertApi = retrofit.create(ExpertApi.class);
-        refreshApi = retrofit.create(RefreshApi.class);
+        expertApi = Retro.getInstance().create(ExpertApi.class);
+        refreshApi = Retro.getInstance().create(RefreshApi.class);
 
         URL serverURL;
         try {
