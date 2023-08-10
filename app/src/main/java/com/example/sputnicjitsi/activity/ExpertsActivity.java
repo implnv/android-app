@@ -69,12 +69,6 @@ public class ExpertsActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-        JitsiMeetConferenceOptions defaultOptions
-                = new JitsiMeetConferenceOptions.Builder()
-                .setServerURL(serverURL)
-                .setFeatureFlag("welcomepage.enabled", false)
-                .build();
-        JitsiMeet.setDefaultConferenceOptions(defaultOptions);
 
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
@@ -84,8 +78,7 @@ public class ExpertsActivity extends AppCompatActivity {
             organizationId = arguments.getInt("organization_id");
         }
 
-        WebSocket.getInstance("в");
-        WebSocket.getInstance("вв");
+        WebSocket.getInstance(accessToken);
 
         prev = findViewById(R.id.prev);
         prev.setVisibility(View.INVISIBLE);

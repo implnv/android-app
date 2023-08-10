@@ -16,15 +16,6 @@ public class WebSocket {
 
     private WebSocket() {}
 
-//    public static Socket getInstance(String t) {
-//        if (!TextUtils.isEmpty(t)) {
-//            IO.Options opts = IO.Options.builder().setAuth(Collections.singletonMap("token", t)).build();
-//            instance = IO.socket(uri, opts).disconnect().connect();
-//        }
-//
-//        return instance;
-//    }
-
     public static Socket getInstance(String t) {
         Socket lInstance = instance;
         IO.Options opts = IO.Options.builder().setAuth(Collections.singletonMap("token", t)).build();
