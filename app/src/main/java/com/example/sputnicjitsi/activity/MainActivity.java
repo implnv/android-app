@@ -235,8 +235,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startCamera();
             } else {
-                Toast.makeText(this, "Camera Permission Denied"
-                        , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
         }
