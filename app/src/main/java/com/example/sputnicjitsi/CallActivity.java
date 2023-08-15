@@ -10,14 +10,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.facebook.react.modules.core.PermissionListener;
-
 import org.jitsi.meet.sdk.JitsiMeetActivity;
-import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
-import org.jitsi.meet.sdk.JitsiMeetActivityInterface;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.jitsi.meet.sdk.JitsiMeetUserInfo;
-import org.jitsi.meet.sdk.JitsiMeetView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +22,7 @@ import java.util.Objects;
 
 import io.socket.emitter.Emitter;
 
-public class CallActivity extends AppCompatActivity implements JitsiMeetActivityInterface {
+public class CallActivity extends AppCompatActivity {
 
     private int num;
     private String fio;
@@ -145,10 +140,5 @@ public class CallActivity extends AppCompatActivity implements JitsiMeetActivity
             }
         };
         timer.start();
-    }
-
-    @Override
-    public void requestPermissions(String[] strings, int i, PermissionListener permissionListener) {
-
     }
 }

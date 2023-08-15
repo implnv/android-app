@@ -1,9 +1,7 @@
 package com.example.sputnicjitsi.activity;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 import android.net.ConnectivityManager;
@@ -15,10 +13,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiNetworkSpecifier;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.view.View;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -39,33 +34,23 @@ import com.example.sputnicjitsi.QR.QRCodeFoundListener;
 import com.example.sputnicjitsi.QR.QRCodeImageAnalyzer;
 import com.example.sputnicjitsi.R;
 import com.example.sputnicjitsi.Retro;
-import com.example.sputnicjitsi.WebSocket;
 import com.example.sputnicjitsi.auth.AuthRequest;
 import com.example.sputnicjitsi.auth.AuthResponse;
 import com.example.sputnicjitsi.auth.UserApi;
-import com.example.sputnicjitsi.experts.User;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.Contract;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CAMERA = 0;
