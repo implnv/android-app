@@ -6,4 +6,8 @@
     <string name="sputnic">Спутник</string>
     <string name="name">Название</string>
     <string name="pages">Страницы</string>
+    <string name="call_end">Вызов завершится через:</string>
+    <string name="text_timer">TextView</string>
+    <string name="button_end_call">Отмена</string>
+    <string name="text_name_exp">TextView</string>
 </resources>
