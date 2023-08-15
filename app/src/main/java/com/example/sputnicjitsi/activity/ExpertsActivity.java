@@ -1,5 +1,6 @@
 package com.example.sputnicjitsi.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sputnicjitsi.CallActivity;
 import com.example.sputnicjitsi.R;
 import com.example.sputnicjitsi.Retro;
 import com.example.sputnicjitsi.WebSocket;
@@ -23,7 +25,9 @@ import com.example.sputnicjitsi.refresh.RefreshResponse;
 
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+import org.jitsi.meet.sdk.JitsiMeetUserInfo;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -78,6 +82,8 @@ public class ExpertsActivity extends AppCompatActivity {
         }
 
         WebSocket.getInstance(accessToken);
+
+
 
         prev = findViewById(R.id.prev);
         prev.setVisibility(View.INVISIBLE);

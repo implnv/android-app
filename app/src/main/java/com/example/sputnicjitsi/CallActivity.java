@@ -10,9 +10,14 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.react.modules.core.PermissionListener;
+
 import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
+import org.jitsi.meet.sdk.JitsiMeetActivityInterface;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.jitsi.meet.sdk.JitsiMeetUserInfo;
+import org.jitsi.meet.sdk.JitsiMeetView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,10 +27,11 @@ import java.util.Objects;
 
 import io.socket.emitter.Emitter;
 
-public class CallActivity extends AppCompatActivity {
+public class CallActivity extends AppCompatActivity implements JitsiMeetActivityInterface {
 
     private int num;
     private String fio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,12 @@ public class CallActivity extends AppCompatActivity {
         sendSocket();
         myTimer();
 
+        WebSocket.getInstance().on("end a call with a specialist", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                onDestroy();
+            }
+        });
     }
 
     private void sendSocket(){
@@ -81,7 +93,7 @@ public class CallActivity extends AppCompatActivity {
                             .setRoom(args[0].toString())
                             .setUserInfo(info)
                             .build();
-
+                    finish();
                     JitsiMeetActivity.launch(getApplicationContext(), options);
                 }
             });
@@ -92,6 +104,13 @@ public class CallActivity extends AppCompatActivity {
     }
     public void onButtonClick(View view) {
         finish();
+
+        try {
+            WebSocket.getInstance().emit("reject from specialist", new JSONObject().put("callId", num));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @NonNull
@@ -117,10 +136,19 @@ public class CallActivity extends AppCompatActivity {
             public void onFinish() {
                 synchronized(CallActivity.class) {
                     finish();
-                    WebSocket.getInstance().emit("reject from specialist");
+                    try {
+                        WebSocket.getInstance().emit("reject from specialist", new JSONObject().put("callId", num));
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         };
         timer.start();
+    }
+
+    @Override
+    public void requestPermissions(String[] strings, int i, PermissionListener permissionListener) {
+
     }
 }
