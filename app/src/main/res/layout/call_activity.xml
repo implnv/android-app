@@ -40,10 +40,10 @@
         app:layout_constraintTop_toBottomOf="@+id/text_final_call" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/determinateBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="103dp"
-        android:layout_height="35dp"
+        android:layout_width="148dp"
+        android:layout_height="46dp"
         app:layout_constraintBottom_toTopOf="@+id/button_end_call"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -7,10 +7,12 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+import org.jitsi.meet.sdk.JitsiMeetUserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,6 +58,8 @@ public class CallActivity extends AppCompatActivity {
             WebSocket.getInstance().on("set room", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
+                    JitsiMeetUserInfo info = new JitsiMeetUserInfo();
+                    info.setDisplayName(fio);
                     JitsiMeetConferenceOptions options  = new JitsiMeetConferenceOptions.Builder()
                             .setServerURL(serverURL)
                             .setFeatureFlag("welcomepage.enabled", false)
@@ -69,6 +73,7 @@ public class CallActivity extends AppCompatActivity {
                             .setFeatureFlag("pip.enabled", false)
                             .setFeatureFlag("pip-while-screen-sharing.enabled", false)
                             .setRoom(args[0].toString())
+                            .setUserInfo(info)
                             .build();
 
                     JitsiMeetActivity.launch(getApplicationContext(), options);
@@ -94,15 +99,20 @@ public class CallActivity extends AppCompatActivity {
 
     private void myTimer(){
         TextView text = findViewById(R.id.text_timer);
+        ProgressBar progressBar = findViewById(R.id.determinateBar);
         CountDownTimer timer = new CountDownTimer(60000, 1000) {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
                 text.setText("0:" + millisUntilFinished/1000);
+                progressBar.setProgress((int) (millisUntilFinished/1000));
             }
             @Override
             public void onFinish() {
-                finish();
+                synchronized(CallActivity.class) {
+                    finish();
+                    WebSocket.getInstance().emit("reject from specialist");
+                }
             }
         };
         timer.start();
