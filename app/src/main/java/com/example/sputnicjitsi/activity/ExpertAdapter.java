@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+import org.jitsi.meet.sdk.JitsiMeetUserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
