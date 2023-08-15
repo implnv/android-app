@@ -31,6 +31,12 @@ public class CallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.call_activity);
 
+        View windowDecorView = getWindow().getDecorView();
+        windowDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+        setContentView(R.layout.call_activity);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
         Bundle arguments = getIntent().getExtras();
         if(arguments != null)
         {

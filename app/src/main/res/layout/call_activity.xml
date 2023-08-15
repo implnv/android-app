@@ -9,12 +9,13 @@
         android:id="@+id/text_name_exp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="20dp"
         android:text="@string/text_name_exp"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/determinateBar" />
 
     <TextView
         android:id="@+id/text_final_call"
@@ -44,20 +45,22 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="148dp"
         android:layout_height="46dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_end_call"
+        android:layout_marginTop="36dp"
+        android:max="60"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_timer" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_end_call"
         android:layout_width="210dp"
         android:layout_height="68dp"
-        android:layout_marginBottom="46dp"
+        android:layout_marginBottom="36dp"
         android:onClick="onButtonClick"
         android:text="@string/button_end_call"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
