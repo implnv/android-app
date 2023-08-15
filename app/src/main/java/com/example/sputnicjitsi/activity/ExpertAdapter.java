@@ -28,7 +28,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
-import io.socket.client.Manager;
 import io.socket.emitter.Emitter;
 
 public class ExpertAdapter extends RecyclerView.Adapter<ExpertAdapter.ViewHolder>{
@@ -79,7 +78,6 @@ public class ExpertAdapter extends RecyclerView.Adapter<ExpertAdapter.ViewHolder
             button = view.findViewById(R.id.callButton);
 
             Button button = view.findViewById(R.id.callButton);
-
             button.setOnClickListener(v -> {
                 try {
                     WebSocket.getInstance().emit("call expert", new JSONObject().put("callId", Integer.parseInt(button.getText().toString())));
