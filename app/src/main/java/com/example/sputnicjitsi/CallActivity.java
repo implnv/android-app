@@ -9,8 +9,6 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.jitsi.meet.sdk.JitsiMeetUserInfo;
 import org.json.JSONException;
@@ -19,8 +17,6 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
-
-import io.socket.emitter.Emitter;
 
 public class CallActivity extends AppCompatActivity {
 
@@ -48,13 +44,6 @@ public class CallActivity extends AppCompatActivity {
         text.setText(getName());
         sendSocket();
         myTimer();
-
-        WebSocket.getInstance().on("end a call with a specialist", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                onDestroy();
-            }
-        });
     }
 
     private void sendSocket(){
@@ -68,29 +57,27 @@ public class CallActivity extends AppCompatActivity {
         try {
             URL serverURL = new URL("https://pseudogu.ru/");
 
-            WebSocket.getInstance().on("set room", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    JitsiMeetUserInfo info = new JitsiMeetUserInfo();
-                    info.setDisplayName(fio);
-                    JitsiMeetConferenceOptions options  = new JitsiMeetConferenceOptions.Builder()
-                            .setServerURL(serverURL)
-                            .setFeatureFlag("welcomepage.enabled", false)
-                            .setFeatureFlag("toolbox.enabled", false)
-                            .setFeatureFlag("filmstrip.enabled", false)
-                            .setFeatureFlag("chat.enabled", false)
-                            .setFeatureFlag("lobby-mode.enabled", false)
-                            .setFeatureFlag("help.enabled", false)
-                            .setFeatureFlag("overflow-menu.enabled", false)
-                            .setFeatureFlag("prejoinpage.enabled", false)
-                            .setFeatureFlag("pip.enabled", false)
-                            .setFeatureFlag("pip-while-screen-sharing.enabled", false)
-                            .setRoom(args[0].toString())
-                            .setUserInfo(info)
-                            .build();
-                    finish();
-                    JitsiMeetActivity.launch(getApplicationContext(), options);
-                }
+            WebSocket.getInstance().on("set room", args -> {
+                JitsiMeetUserInfo info = new JitsiMeetUserInfo();
+                info.setDisplayName(fio);
+                JitsiMeetConferenceOptions options  = new JitsiMeetConferenceOptions.Builder()
+                        .setServerURL(serverURL)
+                        .setFeatureFlag("welcomepage.enabled", false)
+                        .setFeatureFlag("toolbox.enabled", false)
+                        .setFeatureFlag("filmstrip.enabled", false)
+                        .setFeatureFlag("chat.enabled", false)
+                        .setFeatureFlag("lobby-mode.enabled", false)
+                        .setFeatureFlag("help.enabled", false)
+                        .setFeatureFlag("overflow-menu.enabled", false)
+                        .setFeatureFlag("prejoinpage.enabled", false)
+                        .setFeatureFlag("pip.enabled", false)
+                        .setFeatureFlag("pip-while-screen-sharing.enabled", false)
+                        .setFeatureFlag("call-integration.enabled", false)
+                        .setRoom(args[0].toString())
+                        .setUserInfo(info)
+                        .build();
+                finish();
+                ConferenceActivity.launch(getApplicationContext(), options);
             });
 
         } catch (MalformedURLException e) {
