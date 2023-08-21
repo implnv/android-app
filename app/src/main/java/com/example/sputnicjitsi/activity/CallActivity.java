@@ -1,21 +1,26 @@
-package com.example.sputnicjitsi;
+package com.example.sputnicjitsi.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
-import org.jitsi.meet.sdk.JitsiMeetUserInfo;
+
+import com.example.sputnicjitsi.R;
+import com.example.sputnicjitsi.WebSocket;
+
+//import org.jitsi.meet.sdk.JitsiMeetActivity;
+//import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+//import org.jitsi.meet.sdk.JitsiMeetUserInfo;
+import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Objects;
 
 public class CallActivity extends AppCompatActivity {
@@ -54,35 +59,34 @@ public class CallActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        try {
-            URL serverURL = new URL("https://pseudogu.ru/");
+        //            URL serverURL = new URL("https://pseudogu.ru/");
 
-            WebSocket.getInstance().on("set room", args -> {
-                JitsiMeetUserInfo info = new JitsiMeetUserInfo();
-                info.setDisplayName(fio);
-                JitsiMeetConferenceOptions options  = new JitsiMeetConferenceOptions.Builder()
-                        .setServerURL(serverURL)
-                        .setFeatureFlag("welcomepage.enabled", false)
-                        .setFeatureFlag("toolbox.enabled", false)
-                        .setFeatureFlag("filmstrip.enabled", false)
-                        .setFeatureFlag("chat.enabled", false)
-                        .setFeatureFlag("lobby-mode.enabled", false)
-                        .setFeatureFlag("help.enabled", false)
-                        .setFeatureFlag("overflow-menu.enabled", false)
-                        .setFeatureFlag("prejoinpage.enabled", false)
-                        .setFeatureFlag("pip.enabled", false)
-                        .setFeatureFlag("pip-while-screen-sharing.enabled", false)
-                        .setFeatureFlag("call-integration.enabled", false)
-                        .setRoom(args[0].toString())
-                        .setUserInfo(info)
-                        .build();
-                finish();
-                ConferenceActivity.launch(getApplicationContext(), options);
-            });
+        WebSocket.getInstance().on("set room", args -> {
+//                JitsiMeetUserInfo info = new JitsiMeetUserInfo();
+//                info.setDisplayName(fio);
+//                JitsiMeetConferenceOptions options  = new JitsiMeetConferenceOptions.Builder()
+//                        .setServerURL(serverURL)
+//                        .setFeatureFlag("welcomepage.enabled", false)
+//                        .setFeatureFlag("toolbox.enabled", false)
+//                        .setFeatureFlag("filmstrip.enabled", false)
+//                        .setFeatureFlag("chat.enabled", false)
+//                        .setFeatureFlag("lobby-mode.enabled", false)
+//                        .setFeatureFlag("help.enabled", false)
+//                        .setFeatureFlag("overflow-menu.enabled", false)
+//                        .setFeatureFlag("prejoinpage.enabled", false)
+//                        .setFeatureFlag("pip.enabled", false)
+//                        .setFeatureFlag("pip-while-screen-sharing.enabled", false)
+//                        .setFeatureFlag("call-integration.enabled", false)
+//                        .setRoom(args[0].toString())
+//                        .setUserInfo(info)
+//                        .build();
+//            JitsiMeetActivity.launch(this, options);
+            finish();
+            Intent intent = new Intent(getApplicationContext(), ConferenceActivity.class);
+            intent.putExtra("args",args[0].toString());
+            startActivity(intent);
+        });
 
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
     }
     public void onButtonClick(View view) {
         finish();

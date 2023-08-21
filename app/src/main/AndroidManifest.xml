@@ -28,10 +28,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ConferenceActivity"
+            android:name=".activity.ConferenceActivity"
             android:exported="false" />
         <activity
-            android:name=".CallActivity"
+            android:name=".activity.CallActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ExpertsActivity"

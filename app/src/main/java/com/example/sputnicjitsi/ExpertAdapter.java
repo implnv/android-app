@@ -1,4 +1,4 @@
-package com.example.sputnicjitsi.activity;
+package com.example.sputnicjitsi;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sputnicjitsi.CallActivity;
-import com.example.sputnicjitsi.R;
+import com.example.sputnicjitsi.activity.CallActivity;
 import com.example.sputnicjitsi.experts.AvailableExperts;
 import java.util.List;
 
