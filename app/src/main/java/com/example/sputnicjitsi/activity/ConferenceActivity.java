@@ -2,14 +2,14 @@ package com.example.sputnicjitsi.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sputnicjitsi.WebSocket;
+import com.example.sputnicjitsi.auth.UserSpecialist;
 import com.facebook.react.modules.core.PermissionListener;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
 import org.jitsi.meet.sdk.JitsiMeetActivityInterface;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
@@ -20,11 +20,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class ConferenceActivity extends AppCompatActivity implements JitsiMeetActivityInterface {
+public class ConferenceActivity extends JitsiMeetActivity implements JitsiMeetActivityInterface {
     private JitsiMeetView view;
 
     @Override
-    protected void onActivityResult(
+    public void onActivityResult(
             int requestCode,
             int resultCode,
             Intent data) {
@@ -55,7 +55,7 @@ public class ConferenceActivity extends AppCompatActivity implements JitsiMeetAc
         }
         view = new JitsiMeetView(this);
         JitsiMeetUserInfo info = new JitsiMeetUserInfo();
-        info.setDisplayName("Специалист");
+        info.setDisplayName(UserSpecialist.getUsername());
         JitsiMeetConferenceOptions options  = new JitsiMeetConferenceOptions.Builder()
                 .setServerURL(serverURL)
                 .setFeatureFlag("welcomepage.enabled", false)
@@ -78,19 +78,14 @@ public class ConferenceActivity extends AppCompatActivity implements JitsiMeetAc
     }
 
     private void listenSocket(){
-        WebSocket.getInstance().on("end a call with a specialist", args -> {
-            onDestroy();
-            Log.println(Log.ASSERT, "DESTROY", "ВЫПОЛНЕНО");
-        });
+        WebSocket.getInstance().on("end a call with a expert", args -> onDestroy());
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-
         view.dispose();
         view = null;
-
         JitsiMeetActivityDelegate.onHostDestroy(this);
     }
 
@@ -110,14 +105,14 @@ public class ConferenceActivity extends AppCompatActivity implements JitsiMeetAc
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         JitsiMeetActivityDelegate.onHostResume(this);
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         JitsiMeetActivityDelegate.onHostPause(this);
     }

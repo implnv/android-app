@@ -14,15 +14,13 @@ import com.example.sputnicjitsi.ExpertAdapter;
 import com.example.sputnicjitsi.R;
 import com.example.sputnicjitsi.Retro;
 import com.example.sputnicjitsi.WebSocket;
+import com.example.sputnicjitsi.auth.UserSpecialist;
 import com.example.sputnicjitsi.experts.AvailableExperts;
 import com.example.sputnicjitsi.experts.ExpResponse;
 import com.example.sputnicjitsi.experts.ExpertApi;
 import com.example.sputnicjitsi.refresh.RefreshApi;
 import com.example.sputnicjitsi.refresh.RefreshRequest;
 import com.example.sputnicjitsi.refresh.RefreshResponse;
-
-import org.jitsi.meet.sdk.JitsiMeetActivity;
-import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,6 +43,7 @@ public class ExpertsActivity extends AppCompatActivity {
     private TextView page;
     private ImageView next, prev;
     private List<AvailableExperts> expertsList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +57,6 @@ public class ExpertsActivity extends AppCompatActivity {
         expertApi = Retro.getInstance().create(ExpertApi.class);
         refreshApi = Retro.getInstance().create(RefreshApi.class);
 
-        URL serverURL;
-        try {
-            serverURL = new URL("https://pseudogu.ru/");
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
             accessToken = arguments.getString("accessToken");
@@ -74,9 +66,7 @@ public class ExpertsActivity extends AppCompatActivity {
         }
 
         WebSocket.getInstance(accessToken);
-
-
-
+        
         prev = findViewById(R.id.prev);
         prev.setVisibility(View.INVISIBLE);
         next = findViewById(R.id.next);
@@ -87,6 +77,7 @@ public class ExpertsActivity extends AppCompatActivity {
         curPage = 1;
         shiftList = 3;
         getExpertsList();
+        UserSpecialist.setUserInfo(accessToken);
     }
 
     private void setPage() {
@@ -100,6 +91,7 @@ public class ExpertsActivity extends AppCompatActivity {
         page.setText(str);
     }
 
+    //вывести текущую страницу
     private void setCurList () {
         if(curPage > 0 && curPage <= sizePage) {
             checkVisibleButton();
@@ -118,6 +110,7 @@ public class ExpertsActivity extends AppCompatActivity {
         }
     }
 
+    //видны ли кнопки перелистывания страниц
     private void checkVisibleButton() {
         if (curPage > 1 && curPage < sizePage) {
             prev.setVisibility(View.VISIBLE);
@@ -131,6 +124,7 @@ public class ExpertsActivity extends AppCompatActivity {
         }
     }
 
+    //запрос на список доступных экспертов
     private void getExpertsList() {
         Call<ExpResponse> messages = expertApi.getExperts("Bearer "+ accessToken, organizationId, uid);
         messages.enqueue(new Callback<ExpResponse>() {
@@ -153,6 +147,7 @@ public class ExpertsActivity extends AppCompatActivity {
             }
         });
     }
+    //обновить токен
     private void refresh() {
         RefreshRequest refresh = new RefreshRequest(refreshToken);
         Call<RefreshResponse> messages = refreshApi.refreshTokens(refresh);
@@ -166,20 +161,13 @@ public class ExpertsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), Objects.requireNonNull(response.body()).getErrors().toString(), Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<RefreshResponse> call, @NonNull Throwable t) {
                 Toast.makeText(getApplicationContext(), "Ошибка сервера: "+ t, Toast.LENGTH_LONG).show();
             }
         });
     }
-    public void startJitsi(String str){
-        JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
-                .setRoom(str)
-                .build();
-        JitsiMeetActivity.launch(this, options);
-    }
-
+    //ниже - перелистывание страниц
     public void clickNextButton(View view) {
         curPage++;
         getExpertsList();
@@ -193,9 +181,6 @@ public class ExpertsActivity extends AppCompatActivity {
         page.setText(str);
     }
     //TODO разобраться, как сделать кнопку
-    public void callExp(@NonNull View view) {
-        startJitsi("123");
-    }
     //TODO разобраться со сворачиванием окна
     //TODO Jitsi сворачивание
 }
